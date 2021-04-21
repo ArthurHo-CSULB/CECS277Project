@@ -27,7 +27,8 @@ public class App extends JFrame{
 	JMenuBar menubar;
 	JToolBar toolbar, drivebar, statusbar;
 	JDesktopPane desktop;
-	FileManagerFrame myf, myf2;
+	
+	//FileManagerFrame myf, myf2;
 	// TODO: Create FileManagerFrame class to put into desktop frame
 	
 	JButton simple, details;
@@ -36,7 +37,7 @@ public class App extends JFrame{
 	JButton ok, cancel;
 	public App() {
 		// TODO: uncomment try-catch block after FileManagerFrame class is created
-		try {
+//		try {
 			panel = new JPanel();
 			topPanel = new JPanel();
 			menubar = new JMenuBar();
@@ -44,12 +45,11 @@ public class App extends JFrame{
 			drivebar = new JToolBar();
 			statusbar = new JToolBar();
 			desktop = new JDesktopPane();
-			myf = new FileManagerFrame(this);
-			// TODO: resolve this error
-			myf.setSize(750, 500);
-		} catch(IOException ex) {
-			Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
-		}
+//			myf = new FileManagerFrame(this);
+//			myf.setSize(750, 500);
+//		} catch(IOException ex) {
+//			Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+//		}
 	}
 	
 	public void go() {
@@ -63,8 +63,9 @@ public class App extends JFrame{
 
 		panel.add(topPanel, BorderLayout.NORTH);
 		this.add(panel);
-		myf.setVisible(true);		
-		desktop.add(myf);
+//		myf.setVisible(true);
+		
+//		desktop.add(myf);
 		
 		panel.add(desktop, BorderLayout.CENTER);
 //		buildtoolbar();

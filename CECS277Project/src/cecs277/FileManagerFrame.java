@@ -14,4 +14,5 @@ public class FileManagerFrame extends JInternalFrame {
 		this.setIconifiable(true);
 		
 	}
+
 }
