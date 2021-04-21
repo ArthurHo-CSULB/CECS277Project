@@ -1,5 +1,9 @@
 package cecs277;
 
+/*
+ * @author Arthur Ho
+ */
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
