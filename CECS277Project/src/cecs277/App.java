@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -19,7 +20,7 @@ import javax.swing.JToolBar;
 /**
  * App is the organizer for all panels 
  * 
- * @author Darius
+ * @author Darius & Arthur
  *
  */
 public class App extends JFrame{
@@ -28,8 +29,8 @@ public class App extends JFrame{
 	JToolBar toolbar, drivebar, statusbar;
 	JDesktopPane desktop;
 	
-	//FileManagerFrame myf, myf2;
-	// TODO: Create FileManagerFrame class to put into desktop frame
+	FileManagerFrame myf;
+	
 	
 	JButton simple, details;
 	String currentDrive;
@@ -45,8 +46,8 @@ public class App extends JFrame{
 			drivebar = new JToolBar();
 			statusbar = new JToolBar();
 			desktop = new JDesktopPane();
-//			myf = new FileManagerFrame(this);
-//			myf.setSize(750, 500);
+			myf = new FileManagerFrame(this);
+
 //		} catch(IOException ex) {
 //			Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
 //		}
@@ -57,33 +58,36 @@ public class App extends JFrame{
 		panel.setLayout(new BorderLayout());
 		topPanel.setLayout(new BorderLayout()); // toppanel is nested inside panel to create 4 total "areas"
 												// toppanel has menubar + toolbar and panel has toppanel + desktoppane + statusbar
-		buildMenu();
+		buildMenuBar();
 		
 		topPanel.add(menubar, BorderLayout.NORTH);
 
 		panel.add(topPanel, BorderLayout.NORTH);
 		this.add(panel);
-//		myf.setVisible(true);
 		
-//		desktop.add(myf);
+		desktop.add(myf);
 		
 		panel.add(desktop, BorderLayout.CENTER);
-//		buildtoolbar();
+//		buildToolBar();
 		// TODO: build toolbar method
 		
 		topPanel.add(toolbar, BorderLayout.SOUTH);
 		
 		currentDrive = "C:";
-//		buildstatusbar();
-		// TODO: build statusbar method
+		buildStatusBar();
 		
-		panel.add(statusbar, BorderLayout.SOUTH);
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
 	
-	private void buildMenu() {
+	private void buildStatusBar() {
+		JLabel size = new JLabel("Size in GB: ");
+		statusbar.add(size);
+		panel.add(statusbar, BorderLayout.SOUTH);
+	}
+	
+	private void buildMenuBar() {
 		// JMenu creation
 		JMenu file, tree, window, helpMenu;
 		file = new JMenu("File");
@@ -237,7 +241,7 @@ public class App extends JFrame{
 	}
 	
 	/**
-	 * ActionListener for window menu items
+	 * ActionListener for help menu items
 	 * 
 	 *
 	 */
