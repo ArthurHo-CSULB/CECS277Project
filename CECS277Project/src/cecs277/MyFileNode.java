@@ -10,8 +10,8 @@ import java.io.File;
  *
  */
 public class MyFileNode {
-	File file;
-	String fileName;
+	private File file;
+	private String fileName;
 	
 	public MyFileNode(String filename) {
 		file = new File(filename);
@@ -28,7 +28,7 @@ public class MyFileNode {
 	}
 	
 	public boolean isDirectory() {
-		return file.isDirectory();
+		return (file.listFiles() != null);
 	}
 	
 	public String getFilePath() {
