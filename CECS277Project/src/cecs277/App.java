@@ -246,7 +246,6 @@ public class App extends JFrame{
 	 *
 	 */
 	private class helpMenuActionListener implements ActionListener{
-
 		/**
 		 * @param e mouse click on menu item
 		 */
