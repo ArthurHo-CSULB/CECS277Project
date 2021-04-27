@@ -17,6 +17,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import com.sun.source.tree.Tree;
+
 /**
  * App is the organizer for all panels 
  * 
@@ -124,7 +126,7 @@ public class App extends JFrame{
 		treeMenuActionListener treeMenuAL = new treeMenuActionListener();
 		expandBranch.addActionListener(treeMenuAL);
 		collapseBranch.addActionListener(treeMenuAL);
-		// add JMenuItems to tre menu
+		// add JMenuItems to tree menu
 		tree.add(expandBranch);
 		tree.add(collapseBranch);
 		
@@ -251,13 +253,27 @@ public class App extends JFrame{
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getActionCommand().equals("Help"))
-				// TODO: ADD help IMPLEMENTATION
+			if(e.getActionCommand().equals("Help")) {
+				// TODO: modify HelpJDialog to include relevant information
+				try {
+			        HelpJDialog helpdlg = new HelpJDialog();
+			        helpdlg.setVisible(true);
+			    } catch (Exception ex) {
+			        ex.printStackTrace();
+			    }
 				System.out.println("Help");
+			}
 			
-			else // about
-				// TODO: ADD about IMPLEMENTATION
+			else { // about
+				// TODO: modify AboutJDialog to include relevant information
+				try {
+			        AboutJDialog aboutdlg = new AboutJDialog();
+			        aboutdlg.setVisible(true);
+			    } catch (Exception ex) {
+			        ex.printStackTrace();
+			    }
 				System.out.println("About");
+			}
 		}
 		
 	}
