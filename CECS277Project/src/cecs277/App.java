@@ -3,6 +3,7 @@ package cecs277;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,18 +27,18 @@ import com.sun.source.tree.Tree;
  *
  */
 public class App extends JFrame{
-	JPanel panel, topPanel;
-	JMenuBar menubar;
-	JToolBar toolbar, drivebar, statusbar;
-	JDesktopPane desktop;
+	private JPanel panel, topPanel;
+	private JMenuBar menubar;
+	private JToolBar toolbar, drivebar, statusbar;
+	private JDesktopPane desktop;
 	
-	FileManagerFrame myf;
+	private FileManagerFrame myf;
 	
 	
-	JButton simple, details;
-	String currentDrive;
+	private JButton simple, details;
+	private String currentDrive;
 	
-	JButton ok, cancel;
+	private JButton ok, cancel;
 	public App() {
 		// TODO: uncomment try-catch block after FileManagerFrame class is created
 //		try {
@@ -75,7 +76,7 @@ public class App extends JFrame{
 		
 		topPanel.add(toolbar, BorderLayout.SOUTH);
 		
-		currentDrive = "C:";
+		currentDrive = "C:\\";
 		buildStatusBar();
 		
 		this.setSize(800, 600);
@@ -83,8 +84,15 @@ public class App extends JFrame{
 		this.setVisible(true);
 	}
 	
+	public String getCurrentDrive() {return currentDrive;}
+	public void setCurrentDrive(String newDrive) {currentDrive = newDrive;}
+	
 	private void buildStatusBar() {
-		JLabel size = new JLabel("Size in GB: ");
+		File fileDrive = new File(currentDrive);
+		String label = "Current Drive: " +currentDrive + "    Free Space: " + (fileDrive.getFreeSpace()/1024/1024/1024) +" GB"
+				+ "    Used Space: " + ((fileDrive.getTotalSpace()-fileDrive.getFreeSpace())/1024/1024/1024)+" GB"
+				+ "    Total Space: "+ (fileDrive.getTotalSpace()/1024/1024/1024)+" GB";
+		JLabel size = new JLabel(label);
 		statusbar.add(size);
 		panel.add(statusbar, BorderLayout.SOUTH);
 	}

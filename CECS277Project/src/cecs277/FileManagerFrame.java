@@ -12,9 +12,12 @@ import javax.swing.JSplitPane;
 public class FileManagerFrame extends JInternalFrame {
 	JSplitPane splitpane;
 	App myApp;
+	DirPanel dirPanel = new DirPanel();
+	FilePanel filePanel = new FilePanel();
+	
 	
 	public FileManagerFrame(App myApp){
-		splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new DirPanel(), new FilePanel());
+		splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, dirPanel, filePanel);
 		this.myApp = myApp;
 		this.setTitle("C:");
 		this.getContentPane().add(splitpane);

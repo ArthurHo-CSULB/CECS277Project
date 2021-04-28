@@ -22,6 +22,9 @@ public class DirPanel extends JPanel{
 	private JTree dirTree = new JTree();
 	private DefaultTreeModel treeModel;
 	
+	public JTree getTree() {
+		return dirTree;
+	}
 	public DirPanel() {
 		setLayout(new BorderLayout());
 		add(scrollpane, BorderLayout.CENTER);
