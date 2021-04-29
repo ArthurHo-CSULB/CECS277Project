@@ -17,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.JComboBox;
 
 import com.sun.source.tree.Tree;
 
@@ -71,7 +72,8 @@ public class App extends JFrame{
 		desktop.add(myf);
 		
 		panel.add(desktop, BorderLayout.CENTER);
-//		buildToolBar();
+		
+		buildToolBar();
 		// TODO: build toolbar method
 		
 		topPanel.add(toolbar, BorderLayout.SOUTH);
@@ -168,6 +170,19 @@ public class App extends JFrame{
 		menubar.add(tree);
 		menubar.add(window);
 		menubar.add(helpMenu);
+	}
+	
+	/*
+	 * building tool bar with combo box
+	 */
+	private void buildToolBar() {
+		JButton detailsButton = new JButton("Details");
+		JButton simpleButton = new JButton("Simple");
+		JComboBox comboBox = new JComboBox(new String[] {"test1", "test2", "test3"});
+		comboBox.setSize(50, 50);
+		toolbar.add(comboBox);
+		toolbar.add(detailsButton);
+		toolbar.add(simpleButton);
 	}
 	
 	/**
@@ -286,4 +301,13 @@ public class App extends JFrame{
 		
 	}
 	
+	private class toolBarActionListener implements ActionListener{
+		/**
+		 * @param e mouse click on menu item
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO: tool bar action listener IMPLEMENTATION
+		 }
+	 }
 }
