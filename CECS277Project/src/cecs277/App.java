@@ -40,8 +40,9 @@ public class App extends JFrame{
 	
 	private FileManagerFrame myf;
 	
-	
+	// Not sure if this declaration of simple and details are needed as this was declared inside builtToolBar()
 	private JButton simple, details;
+	
 	private String currentDrive;
 		
 	private JButton ok, cancel;
@@ -185,16 +186,18 @@ public class App extends JFrame{
 		JButton simpleButton = new JButton("Simple");
 		
 		JComboBox comboBox = new JComboBox(new String[] {"test1", "test2", "test3"});
-		// I declared this both globally and locally. Locally is just for a test,
-		//but glob
-		
+
 		comboBox.setSize(50, 50);
 		toolbar.add(comboBox);
 		toolbar.add(detailsButton);
 		toolbar.add(simpleButton);
 		
-		//toolBarActionListener toolBarAL = new toolBarActionListener();
-		//toolbar.addActionListener(toolBarAL);
+		
+		comboBoxActionListener comboboxAL = new comboBoxActionListener();
+		comboBox.addActionListener(comboboxAL);
+		toolBarButtonActionListener toolbarbuttonAL = new toolBarButtonActionListener();
+		detailsButton.addActionListener(toolbarbuttonAL);
+		simpleButton.addActionListener(toolbarbuttonAL);
 	}
 	
 	/**
@@ -313,25 +316,34 @@ public class App extends JFrame{
 		
 	}
 	
-	private class toolBarActionListener implements ActionListener{
+	private class comboBoxActionListener implements ActionListener{
 		/**
 		 * @param e mouse click on menu item
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO: tool bar action listener IMPLEMENTATION
-			if(comboBox.getSelectedItem().toString().equals("test1")) {
-				//This is just place holder code. I don't think it'll work
-				//for our final application.
-				System.out.println("test1");
+			if(e.getSource()==comboBox) {
+				//This is just place holder code.
+				System.out.println(comboBox.getSelectedItem());
 			}
+
+			
+		 }
+	 }
+	
+	private class toolBarButtonActionListener implements ActionListener{
+		/**
+		 * @param e mouse click on menu item
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
 			
 			if(e.getActionCommand().equals("Details"))
 				System.out.println("Details");
 			
 			else if(e.getActionCommand().equals("Simple"))
 				System.out.println("Simple");
-			
 		 }
 	 }
 	
