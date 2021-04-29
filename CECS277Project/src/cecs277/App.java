@@ -31,14 +31,19 @@ public class App extends JFrame{
 	private JPanel panel, topPanel;
 	private JMenuBar menubar;
 	private JToolBar toolbar, drivebar, statusbar;
+	
+	//I'm not sure if comboBox should be declared globally.
+	private JComboBox comboBox;
+	
 	private JDesktopPane desktop;
+
 	
 	private FileManagerFrame myf;
 	
 	
 	private JButton simple, details;
 	private String currentDrive;
-	
+		
 	private JButton ok, cancel;
 	public App() {
 		// TODO: uncomment try-catch block after FileManagerFrame class is created
@@ -178,13 +183,18 @@ public class App extends JFrame{
 	private void buildToolBar() {
 		JButton detailsButton = new JButton("Details");
 		JButton simpleButton = new JButton("Simple");
+		
 		JComboBox comboBox = new JComboBox(new String[] {"test1", "test2", "test3"});
+		// I declared this both globally and locally. Locally is just for a test,
+		//but glob
+		
 		comboBox.setSize(50, 50);
 		toolbar.add(comboBox);
 		toolbar.add(detailsButton);
 		toolbar.add(simpleButton);
-		// toolBarActionListener toolBarAL = new toolBarActionListener();
-		//toolBar.addActionListener(toolBarAL);
+		
+		//toolBarActionListener toolBarAL = new toolBarActionListener();
+		//toolbar.addActionListener(toolBarAL);
 	}
 	
 	/**
@@ -310,6 +320,20 @@ public class App extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO: tool bar action listener IMPLEMENTATION
+			if(comboBox.getSelectedItem().toString().equals("test1")) {
+				//This is just place holder code. I don't think it'll work
+				//for our final application.
+				System.out.println("test1");
+			}
+			
+			if(e.getActionCommand().equals("Details"))
+				System.out.println("Details");
+			
+			else if(e.getActionCommand().equals("Simple"))
+				System.out.println("Simple");
+			
 		 }
 	 }
+	
+	
 }
