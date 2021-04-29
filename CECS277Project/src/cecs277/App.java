@@ -183,6 +183,8 @@ public class App extends JFrame{
 		toolbar.add(comboBox);
 		toolbar.add(detailsButton);
 		toolbar.add(simpleButton);
+		// toolBarActionListener toolBarAL = new toolBarActionListener();
+		//toolBar.addActionListener(toolBarAL);
 	}
 	
 	/**
