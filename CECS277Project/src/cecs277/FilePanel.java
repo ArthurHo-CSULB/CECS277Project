@@ -70,6 +70,15 @@ public class FilePanel extends JPanel {
         buildList("C:\\");
     }
     
+    public FilePanel(FileManagerFrame myFileManagerFrame, File file){
+        this.myFileManagerFrame = myFileManagerFrame;
+        this.setLayout(new BorderLayout());
+        scrollpane.setViewportView(list);
+		this.add(scrollpane, BorderLayout.CENTER);
+        this.setDropTarget(new MyDropTarget());        
+        buildList(file.getAbsolutePath());
+    }
+    
     /**
      *  Builds the initial list of the root drive C:\\
      */

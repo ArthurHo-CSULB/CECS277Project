@@ -42,6 +42,7 @@ public class FileManagerFrame extends JInternalFrame {
 	 */
 	public FileManagerFrame(App myApp, File file){
 		dirPanel = new DirPanel(this, file);
+		filePanel = new FilePanel(this, file);
 		splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, dirPanel, filePanel);
 		this.myApp = myApp;
 		this.setTitle(file.toString());
