@@ -93,6 +93,10 @@ public class FilePanel extends JPanel {
      * @param focusedFileNode current node which has been selected by the user to display new list
      */
     public void buildNewList(MyFileNode focusedFileNode) {
+    	if(!focusedFileNode.isDirectory()) {
+    		model.removeAllElements();
+    		return;
+    	}
     	model.removeAllElements();
     	File[] files = focusedFileNode.getFile().listFiles();
     	ArrayList<MyFileNode> fileNodes = new ArrayList<MyFileNode>();

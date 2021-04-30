@@ -133,7 +133,7 @@ public class DirPanel extends JPanel{
 			
 			DefaultMutableTreeNode thisNode = (DefaultMutableTreeNode) dirTree.getLastSelectedPathComponent();
 			if(thisNode!=null)
-				myFileManagerFrame.setTitle(thisNode.toString());
+				myFileManagerFrame.setTitle(((MyFileNode)thisNode.getUserObject()).getFilePath());
 			expandDirectoryNode(thisNode);
 			myFileManagerFrame.buildNewList((MyFileNode)thisNode.getUserObject());
 			
