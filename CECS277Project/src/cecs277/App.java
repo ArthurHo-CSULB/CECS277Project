@@ -336,7 +336,6 @@ public class App extends JFrame{
 			if(e.getSource()==comboBox) {
 				File drive = (File)comboBox.getSelectedItem();
 				desktop.add(buildFileManagerFrame(drive));
-				System.out.println(comboBox.getSelectedItem());
 			}
 		 }
 	 }
