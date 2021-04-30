@@ -46,7 +46,6 @@ public class MyFileNode {
 		String[] seperated = fileName.split("[\\\\]");
 		return seperated[seperated.length-1];
 	}
-
-	
+		
 	
 }

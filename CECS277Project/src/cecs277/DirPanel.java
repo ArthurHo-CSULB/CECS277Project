@@ -21,28 +21,34 @@ public class DirPanel extends JPanel{
 	private JScrollPane scrollpane = new JScrollPane();
 	private JTree dirTree = new JTree();
 	private DefaultTreeModel treeModel;
+	private FileManagerFrame myFileManagerFrame;
 	
 	public JTree getTree() {
 		return dirTree;
 	}
-	public DirPanel() {
+	public DirPanel(FileManagerFrame myFileManagerFrame) {
+		this.myFileManagerFrame = myFileManagerFrame;
 		setLayout(new BorderLayout());
 		add(scrollpane, BorderLayout.CENTER);
 		scrollpane.setViewportView(dirTree);
-		add(scrollpane);
-		buildDir();
+		buildDir("C:\\");
+	}
+	public DirPanel(FileManagerFrame myFileManagerFrame, File file) {
+		this.myFileManagerFrame = myFileManagerFrame;
+		setLayout(new BorderLayout());
+		add(scrollpane, BorderLayout.CENTER);
+		scrollpane.setViewportView(dirTree);
+		buildDir(file.toString());
 	}
 	
 	// builds the initial directory
-	public void buildDir() {
-		File[] rootDirectories;
-		rootDirectories = File.listRoots();
+	public void buildDir(String rootStr) {
 		
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(new MyFileNode("C:\\"));
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(new MyFileNode(rootStr));
 		treeModel = new DefaultTreeModel(root);
 				
 		DefaultMutableTreeNode node;
-		File cFile = new File("C:\\");
+		File cFile = new File(rootStr);
 		File[] cFiles = cFile.listFiles();
 		for(File item : cFiles) {
 			if (item.listFiles() != null)
@@ -111,22 +117,34 @@ public class DirPanel extends JPanel{
 		
 	}
 	
+	/**
+     * return this class's filemanagerframe
+     * 
+     * @return local variable filemanagerframe
+     */
+    public FileManagerFrame getFileManagerFrame() {
+    	return myFileManagerFrame;
+    }
+	
 	class directoryTreeSelectionListener implements TreeSelectionListener{
 
 		@Override
 		public void valueChanged(TreeSelectionEvent e) {
 			
 			DefaultMutableTreeNode thisNode = (DefaultMutableTreeNode) dirTree.getLastSelectedPathComponent();
+			if(thisNode!=null)
+				myFileManagerFrame.setTitle(thisNode.toString());
+			expandDirectoryNode(thisNode);
+			myFileManagerFrame.buildNewList((MyFileNode)thisNode.getUserObject());
 			
-			/*
-			 * //checking if the node doesnt have children and should have children
-			 * if(thisNode != null && thisNode.getChildCount()<1 &&
-			 * ((MyFileNode)thisNode.getUserObject()).isDirectory()) {
-			 * DefaultMutableTreeNode node =
-			 * buildNode(((MyFileNode)thisNode.getUserObject()).getFile());
-			 * thisNode.add(node); }
-			 */
-			
+		}
+		
+		/**
+		 * Checks if a node needs children nodes to be created within its tree based on subdirectories 
+		 * 
+		 * @param thisNode node to be expanded on the tree
+		 */
+		public void expandDirectoryNode(DefaultMutableTreeNode thisNode) {
 			if(thisNode != null) {
 				int childCount = thisNode.getChildCount();
 				if(childCount > 0) {
@@ -147,16 +165,17 @@ public class DirPanel extends JPanel{
 						childCount--;
 					}
 				}
-				else {
-					Desktop desktop = Desktop.getDesktop();
-					try {
-						desktop.open(((MyFileNode)thisNode.getUserObject()).getFile());
-					}catch(IOException ex) {
-						System.out.println(ex.toString());
-					}
-				}
+//				else {
+//					Desktop desktop = Desktop.getDesktop();
+//					try {
+//						desktop.open(((MyFileNode)thisNode.getUserObject()).getFile());
+//					}catch(IOException ex) {
+//						System.out.println(ex.toString());
+//					}
+//				}
 			}
-			System.out.println(e.getPath());	
+			
 		}
 	}
+	
 }

@@ -87,7 +87,7 @@ public class App extends JFrame{
 		currentDrive = "C:\\";
 		buildStatusBar();
 		
-		this.setSize(800, 600);
+		this.setSize(1000, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
@@ -185,12 +185,17 @@ public class App extends JFrame{
 		JButton detailsButton = new JButton("Details");
 		JButton simpleButton = new JButton("Simple");
 		
-		JComboBox comboBox = new JComboBox(new String[] {"test1", "test2", "test3"});
+		
+		File[] files = File.listRoots();
+		JComboBox comboBox = new JComboBox(files);
 
 		comboBox.setSize(50, 50);
-		toolbar.add(comboBox);
-		toolbar.add(detailsButton);
-		toolbar.add(simpleButton);
+		JPanel wrapper = new JPanel();
+		wrapper.add(comboBox);
+		wrapper.add(detailsButton);
+		wrapper.add(simpleButton);
+		toolbar.add(wrapper);
+		
 		
 		
 		comboBoxActionListener comboboxAL = new comboBoxActionListener();
@@ -315,26 +320,39 @@ public class App extends JFrame{
 		}
 		
 	}
-	
+	/**
+	 * Action listener for combobox actions
+	 * 
+	 * 
+	 */
 	private class comboBoxActionListener implements ActionListener{
 		/**
-		 * @param e mouse click on menu item
+		 * @param e mouse click on combobox item
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO: tool bar action listener IMPLEMENTATION
+			JComboBox comboBox = (JComboBox) e.getSource();
 			if(e.getSource()==comboBox) {
-				//This is just place holder code.
+				File drive = (File)comboBox.getSelectedItem();
+				desktop.add(buildFileManagerFrame(drive));
 				System.out.println(comboBox.getSelectedItem());
 			}
-
-			
 		 }
 	 }
 	
+	public FileManagerFrame buildFileManagerFrame(File newDrive) {
+		return new FileManagerFrame(this, newDrive);
+	}
+	
+	/**
+	 * Action listener for toolbarbutton actions
+	 * 
+	 *
+	 */
 	private class toolBarButtonActionListener implements ActionListener{
 		/**
-		 * @param e mouse click on menu item
+		 * @param e mouse click on toolbar item
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {

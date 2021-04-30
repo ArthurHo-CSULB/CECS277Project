@@ -38,16 +38,16 @@ public class DIRread {
 		DecimalFormat decFmt = new DecimalFormat("#,###");
 		
 		
-		for(int i = 0; i < files.length; i++) {		
-			if (files[i].isDirectory())
-				System.out.println("Directory:\t"+files[i].getAbsolutePath()
-								+ " Date:" + dateFmt.format(files[i].lastModified())
-								+ " Size:" + decFmt.format(files[i].length()));
-			else
-				System.out.println("File:\t\t"+files[i].getAbsolutePath()
-								+ " Date:" + dateFmt.format(files[i].lastModified())
-								+ " Size:" + decFmt.format(files[i].length()));
-		}
+//		for(int i = 0; i < files.length; i++) {		
+//			if (files[i].isDirectory())
+//				System.out.println("Directory:\t"+files[i].getAbsolutePath()
+//								+ " Date:" + dateFmt.format(files[i].lastModified())
+//								+ " Size:" + decFmt.format(files[i].length()));
+//			else
+//				System.out.println("File:\t\t"+files[i].getAbsolutePath()
+//								+ " Date:" + dateFmt.format(files[i].lastModified())
+//								+ " Size:" + decFmt.format(files[i].length()));
+//		}
 	}
 	
 	/**
