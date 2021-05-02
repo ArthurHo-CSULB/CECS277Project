@@ -188,7 +188,6 @@ public class App extends JFrame{
 		
 		File[] files = File.listRoots();
 		JComboBox comboBox = new JComboBox(files);
-
 		comboBox.setSize(50, 50);
 		JPanel wrapper = new JPanel();
 		wrapper.add(comboBox);
