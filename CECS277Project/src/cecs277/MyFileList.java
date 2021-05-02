@@ -24,7 +24,11 @@ public class MyFileList extends MyFileNode {
 			return seperated[seperated.length-1];
 		}
 		else {
-			return String.format("%-40s%-12s%-10s", super.toString(), 
+			String name = super.toString();
+			if (name.length() >= 39) {
+				name = name.substring(0, 39);
+			}
+			return String.format("%-40s%-12s%-10s", name, 
 					dateFmt.format(getFile().lastModified()) +"", 
 					decFmt.format(getFile().length()/1024/1024) + " MB");
 		}

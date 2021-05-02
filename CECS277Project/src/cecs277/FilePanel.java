@@ -140,8 +140,11 @@ public class FilePanel extends JPanel {
     			
     			// Double-click detected
     			int index = list.locationToIndex(e.getPoint());
+    			// checking to make sure the doubleclick index makes sense
     			if (index > 0) {
-    				MyFileNode fileNode = (MyFileNode)list.getModel().getElementAt(index);
+    				// get the node associated with the double click
+    				MyFileList fileNode = (MyFileList)list.getModel().getElementAt(index);
+    				// get user desktop
     				Desktop desktop = Desktop.getDesktop();
     				try {
     					desktop.open(fileNode.getFile());
