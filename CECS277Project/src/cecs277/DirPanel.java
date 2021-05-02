@@ -8,10 +8,13 @@ import java.io.IOException;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 /**
  * 
  * @author Darius & Arthur
@@ -59,6 +62,7 @@ public class DirPanel extends JPanel{
 		}
 		dirTree.setModel(treeModel);
 		dirTree.addTreeSelectionListener(new directoryTreeSelectionListener());
+		dirTree.addTreeExpansionListener(new directoryTreeExpansionListener());
 	}
 	
 	/**
@@ -126,6 +130,56 @@ public class DirPanel extends JPanel{
     	return myFileManagerFrame;
     }
 	
+    
+    class directoryTreeExpansionListener implements TreeExpansionListener{
+
+		@Override
+		public void treeExpanded(TreeExpansionEvent event) {
+			TreePath path = event.getPath();
+			DefaultMutableTreeNode thisNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+			System.out.println(thisNode);
+			if(thisNode!=null)
+				myFileManagerFrame.setTitle(((MyFileNode)thisNode.getUserObject()).getFilePath());
+			expandDirectoryNode(thisNode);
+			if(thisNode!=null)
+				myFileManagerFrame.buildNewList((MyFileNode)thisNode.getUserObject());
+			
+			
+		}
+
+		@Override
+		public void treeCollapsed(TreeExpansionEvent event) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		public void expandDirectoryNode(DefaultMutableTreeNode thisNode) {
+			if(thisNode != null) {
+				int childCount = thisNode.getChildCount();
+				if(childCount > 0) {
+					DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) thisNode.getFirstChild();
+					if(((MyFileNode)childNode.getUserObject()).isDirectory()) {
+						if(childNode.getChildCount()==0) {
+							addNodeChildren(childNode);
+						}
+					}
+					childCount--;
+					while(childCount > 0) {
+						childNode = (DefaultMutableTreeNode) thisNode.getChildAfter(childNode);
+						if(((MyFileNode)childNode.getUserObject()).isDirectory()) {
+							if(childNode.getChildCount()==0) {
+								addNodeChildren(childNode);
+							}
+						}
+						childCount--;
+					}
+				}
+			}
+			
+		}
+    	
+    }
+    
 	class directoryTreeSelectionListener implements TreeSelectionListener{
 
 		@Override
@@ -135,7 +189,9 @@ public class DirPanel extends JPanel{
 			if(thisNode!=null)
 				myFileManagerFrame.setTitle(((MyFileNode)thisNode.getUserObject()).getFilePath());
 			expandDirectoryNode(thisNode);
-			myFileManagerFrame.buildNewList((MyFileNode)thisNode.getUserObject());
+			if(thisNode!=null) {
+				myFileManagerFrame.buildNewList((MyFileNode)thisNode.getUserObject());
+			}
 			
 		}
 		
