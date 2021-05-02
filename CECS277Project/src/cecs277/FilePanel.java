@@ -33,6 +33,7 @@ package cecs277;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
@@ -62,6 +63,7 @@ public class FilePanel extends JPanel {
     private FileManagerFrame myFileManagerFrame;
     
     public FilePanel(FileManagerFrame myFileManagerFrame){
+    	list.setFont(new Font("Courier New",Font.BOLD,14));
         this.myFileManagerFrame = myFileManagerFrame;
         this.setLayout(new BorderLayout());
         scrollpane.setViewportView(list);
@@ -71,7 +73,8 @@ public class FilePanel extends JPanel {
     }
     
     public FilePanel(FileManagerFrame myFileManagerFrame, File file){
-        this.myFileManagerFrame = myFileManagerFrame;
+    	list.setFont(new Font("Courier New",Font.BOLD,14));
+    	this.myFileManagerFrame = myFileManagerFrame;
         this.setLayout(new BorderLayout());
         scrollpane.setViewportView(list);
 		this.add(scrollpane, BorderLayout.CENTER);
@@ -84,9 +87,9 @@ public class FilePanel extends JPanel {
      */
     public void buildList(String currentDrive){
     	File[] files = new File(currentDrive).listFiles();
-    	ArrayList<MyFileNode> fileNodes = new ArrayList<MyFileNode>();
+    	ArrayList<MyFileList> fileNodes = new ArrayList<MyFileList>();
     	for(File file: files) {
-    		fileNodes.add(new MyFileNode(file.toString()));
+    		fileNodes.add(new MyFileList(file.toString()));
     	}
     	model.addAll(fileNodes);
         list.setModel(model);
@@ -108,9 +111,9 @@ public class FilePanel extends JPanel {
     	}
     	model.removeAllElements();
     	File[] files = focusedFileNode.getFile().listFiles();
-    	ArrayList<MyFileNode> fileNodes = new ArrayList<MyFileNode>();
+    	ArrayList<MyFileList> fileNodes = new ArrayList<MyFileList>();
     	for(File file: files) {
-    		fileNodes.add(new MyFileNode(file.toString()));
+    		fileNodes.add(new MyFileList(file.toString()));
     	}
     	model.addAll(fileNodes);
     }

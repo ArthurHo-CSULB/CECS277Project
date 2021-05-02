@@ -3,8 +3,12 @@ package cecs277;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +21,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import javax.swing.JComboBox;
 
 import com.sun.source.tree.Tree;
@@ -28,22 +34,26 @@ import com.sun.source.tree.Tree;
  *
  */
 public class App extends JFrame{
+	public static boolean  detailed = true;
 	private JPanel panel, topPanel;
 	private JMenuBar menubar;
 	private JToolBar toolbar, drivebar, statusbar;
 	
 	//I'm not sure if comboBox should be declared globally.
 	private JComboBox comboBox;
-	
 	private JDesktopPane desktop;
 
 	
 	private FileManagerFrame myf;
 	
+	private ArrayList<FileManagerFrame> fmfList = new ArrayList();
+	
 	// Not sure if this declaration of simple and details are needed as this was declared inside builtToolBar()
 	private JButton simple, details;
+	private JLabel driveInfo;
 	
 	private String currentDrive;
+	private int currentLayer = 0;
 		
 	private JButton ok, cancel;
 	public App() {
@@ -76,6 +86,8 @@ public class App extends JFrame{
 		this.add(panel);
 		
 		desktop.add(myf);
+		//desktop.addFocusListener(new desktopFocusListener());
+		
 		
 		panel.add(desktop, BorderLayout.CENTER);
 		
@@ -87,7 +99,7 @@ public class App extends JFrame{
 		currentDrive = "C:\\";
 		buildStatusBar();
 		
-		this.setSize(1000, 800);
+		this.setSize(1200, 800);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
@@ -95,14 +107,44 @@ public class App extends JFrame{
 	public String getCurrentDrive() {return currentDrive;}
 	public void setCurrentDrive(String newDrive) {currentDrive = newDrive;}
 	
+	/**
+	 * places all filemanagerframes from the arraylist into a cascade formation
+	 * 
+	 * 
+	 */
+	public void cascade() {
+		int x = 10, y = 10;
+		for(FileManagerFrame frame : fmfList) {
+			if(frame != null) {
+				if(!frame.isClosed()) {
+					frame.setLocation(x,y);
+					frame.toFront();
+					x+=30;
+					y+=30;
+				}
+			}
+		}
+	}
+	
+	
 	private void buildStatusBar() {
 		File fileDrive = new File(currentDrive);
 		String label = "Current Drive: " +currentDrive + "    Free Space: " + (fileDrive.getFreeSpace()/1024/1024/1024) +" GB"
 				+ "    Used Space: " + ((fileDrive.getTotalSpace()-fileDrive.getFreeSpace())/1024/1024/1024)+" GB"
 				+ "    Total Space: "+ (fileDrive.getTotalSpace()/1024/1024/1024)+" GB";
-		JLabel size = new JLabel(label);
-		statusbar.add(size);
+		driveInfo = new JLabel(label);
+		statusbar.add(driveInfo);
 		panel.add(statusbar, BorderLayout.SOUTH);
+	}
+	
+	public void updateStatusBar(FileManagerFrame focusedFrame) {
+		File fileDrive = focusedFrame.getRootDrive();
+		if (fileDrive == null)
+			return;
+		String label = "Current Drive: " +focusedFrame.getRootDrive() + "    Free Space: " + (fileDrive.getFreeSpace()/1024/1024/1024) +" GB"
+				+ "    Used Space: " + ((fileDrive.getTotalSpace()-fileDrive.getFreeSpace())/1024/1024/1024)+" GB"
+				+ "    Total Space: "+ (fileDrive.getTotalSpace()/1024/1024/1024)+" GB";
+		driveInfo.setText(label);
 	}
 	
 	private void buildMenuBar() {
@@ -274,13 +316,14 @@ public class App extends JFrame{
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getActionCommand().equals("New"))
-				// TODO: ADD expand branch IMPLEMENTATION
-				System.out.println("New Window");
-			
-			else // cascade window
+			if(e.getActionCommand().equals("New")) {
+				FileManagerFrame newFrame = buildFileManagerFrame(new File("C:\\"));
+				updateStatusBar(newFrame);
+				}
+			else { // cascade window
 				// TODO: ADD cascade window IMPLEMENTATION
-				System.out.println("Cascade Window");
+				cascade();
+			}
 		}
 		
 	}
@@ -335,13 +378,29 @@ public class App extends JFrame{
 			JComboBox comboBox = (JComboBox) e.getSource();
 			if(e.getSource()==comboBox) {
 				File drive = (File)comboBox.getSelectedItem();
-				desktop.add(buildFileManagerFrame(drive));
+				FileManagerFrame newFrame = buildFileManagerFrame(drive);
+				updateStatusBar(newFrame);
+
+				
 			}
 		 }
 	 }
 	
+	/**
+	 * builds a new frame based on chosen drive
+	 * @param newDrive root drive for the frame
+	 * @return the created filemanagerframe object
+	 */
 	public FileManagerFrame buildFileManagerFrame(File newDrive) {
-		return new FileManagerFrame(this, newDrive);
+		FileManagerFrame newFrame = new FileManagerFrame(this, newDrive);
+		desktop.add(newFrame);
+		newFrame.toFront();
+		newFrame.setLocation(30, 30);
+		return newFrame;
+	}
+	
+	public void addFileManagerFrame(FileManagerFrame newFileManagerFrame) {
+		fmfList.add(newFileManagerFrame);
 	}
 	
 	/**
@@ -356,11 +415,15 @@ public class App extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if(e.getActionCommand().equals("Details"))
-				System.out.println("Details");
+			if(e.getActionCommand().equals("Details")) {
+				App.detailed = true;
+				myf.getFilePanel().repaint();
+			}
 			
-			else if(e.getActionCommand().equals("Simple"))
-				System.out.println("Simple");
+			else if(e.getActionCommand().equals("Simple")) {
+				App.detailed = false;
+				myf.getFilePanel().repaint();
+			}
 		 }
 	 }
 	

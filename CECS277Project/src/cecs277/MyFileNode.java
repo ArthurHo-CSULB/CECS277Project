@@ -1,6 +1,8 @@
 package cecs277;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 /**
  * Node class to keep track of all the different nodes in the file and tree
@@ -12,7 +14,7 @@ import java.io.File;
 public class MyFileNode {
 	private File file;
 	private String fileName;
-	
+
 	public MyFileNode(String filename) {
 		file = new File(filename);
 		fileName = filename;
@@ -35,6 +37,10 @@ public class MyFileNode {
 		return file.getAbsolutePath();
 	}
 	
+	public String getFileName() {
+		return fileName;
+	}
+	
 	/**
 	 *  This makes the node look pretty by parsing the absolute filepath for the last string seperated by //
 	 *  
@@ -43,7 +49,7 @@ public class MyFileNode {
 	 */
 	
 	public String toString() {
-		String[] seperated = fileName.split("[\\\\]");
+		String[] seperated = getFileName().split("[\\\\]");
 		return seperated[seperated.length-1];
 	}
 		

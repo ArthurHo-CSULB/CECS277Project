@@ -1,5 +1,8 @@
 package cecs277;
 
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 
 /**
@@ -16,6 +19,7 @@ public class FileManagerFrame extends JInternalFrame {
 	App myApp;
 	DirPanel dirPanel = new DirPanel(this);
 	FilePanel filePanel = new FilePanel(this);
+	private File rootDrive;
 	
 	/**
 	 * Initial filemanagerframe created when app is started
@@ -24,14 +28,18 @@ public class FileManagerFrame extends JInternalFrame {
 	 */
 	public FileManagerFrame(App myApp){
 		splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, dirPanel, filePanel);
+		this.rootDrive = new File("C:");
 		this.myApp = myApp;
 		this.setTitle("C:");
 		this.getContentPane().add(splitpane);
 		this.setClosable(true);
 		this.setMaximizable(true);
 		this.setIconifiable(true);
-		this.setSize(700,600);
+		this.setSize(1000,600);
 		this.setVisible(true);
+		this.setResizable(true);
+		myApp.addFileManagerFrame(this);
+		
 	}
 	
 	/**
@@ -44,14 +52,18 @@ public class FileManagerFrame extends JInternalFrame {
 		dirPanel = new DirPanel(this, file);
 		filePanel = new FilePanel(this, file);
 		splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, dirPanel, filePanel);
+		this.rootDrive = file;
 		this.myApp = myApp;
 		this.setTitle(file.toString());
 		this.getContentPane().add(splitpane);
 		this.setClosable(true);
 		this.setMaximizable(true);
 		this.setIconifiable(true);
-		this.setSize(700,600);
+		this.setSize(1000,600);
 		this.setVisible(true);
+		this.setResizable(true);
+		myApp.addFileManagerFrame(this);
+		
 	}
 	
 	public void buildNewList(MyFileNode focusedFileNode) {
@@ -61,5 +73,19 @@ public class FileManagerFrame extends JInternalFrame {
 	public String getCurrentDrive() {
 		return myApp.getCurrentDrive();
 	}
+	
+	public File getRootDrive() {
+		return rootDrive;
+	}
+	
+	public FilePanel getFilePanel() {
+		return filePanel;
+	}
+	
+	public DirPanel getDirPanel() {
+		return dirPanel;
+	}
+	
+
 
 }
