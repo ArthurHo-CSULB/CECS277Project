@@ -13,6 +13,7 @@ import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 /**
@@ -26,14 +27,13 @@ public class DirPanel extends JPanel{
 	private DefaultTreeModel treeModel;
 	private FileManagerFrame myFileManagerFrame;
 	
-	public JTree getTree() {
-		return dirTree;
-	}
 	public DirPanel(FileManagerFrame myFileManagerFrame) {
 		this.myFileManagerFrame = myFileManagerFrame;
 		setLayout(new BorderLayout());
 		add(scrollpane, BorderLayout.CENTER);
 		scrollpane.setViewportView(dirTree);
+		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) dirTree.getCellRenderer();
+		renderer.setLeafIcon(renderer.getClosedIcon());
 		buildDir("C:\\");
 	}
 	public DirPanel(FileManagerFrame myFileManagerFrame, File file) {
@@ -54,17 +54,19 @@ public class DirPanel extends JPanel{
 		File cFile = new File(rootStr);
 		File[] cFiles = cFile.listFiles();
 		for(File item : cFiles) {
-			if (item.listFiles() != null)
+			if (item.isDirectory()) {
 				node = buildNode(item);
-			else
-				node = new DefaultMutableTreeNode(new MyFileNode(item.toString()));
-			root.add(node);
+				root.add(node);
+			}
 		}
 		dirTree.setModel(treeModel);
 		dirTree.addTreeSelectionListener(new directoryTreeSelectionListener());
 		dirTree.addTreeExpansionListener(new directoryTreeExpansionListener());
 	}
 	
+	public JTree getTree() {
+		return dirTree;
+	}
 	/**
 	 *  builds and returns a connected node's subtree ONLY 1 LEVEL DEEP
 	 * 
@@ -76,12 +78,12 @@ public class DirPanel extends JPanel{
 				
 		DefaultMutableTreeNode node;
 		File[] files = rootFile.listFiles();
+		if (files == null)
+			return root;
 		for(File item : files) {		
 			node = new DefaultMutableTreeNode(new MyFileNode(item.toString()));
 			if(((MyFileNode)node.getUserObject()).isDirectory())
 				root.add(buildNodeOneDeep(item));
-			else
-				root.add(node);
 		}
 		return root;
 	}
@@ -97,9 +99,13 @@ public class DirPanel extends JPanel{
 				
 		DefaultMutableTreeNode node;
 		File[] files = rootFile.listFiles();
-		for(File item : files) {		
-			node = new DefaultMutableTreeNode(new MyFileNode(item.toString()));
-			root.add(node);
+		if (files == null)
+			return root;
+		for(File item : files) {
+			if(item.isDirectory()) {
+				node = new DefaultMutableTreeNode(new MyFileNode(item.toString()));
+				root.add(node);
+			}
 		}
 		return root;
 	}
@@ -114,9 +120,13 @@ public class DirPanel extends JPanel{
 					
 		DefaultMutableTreeNode node;
 		File[] files = ((MyFileNode)root.getUserObject()).getFile().listFiles();
-		for(File item : files) {		
-			node = new DefaultMutableTreeNode(new MyFileNode(item.toString()));
-			root.add(node);
+		if (files == null)
+			return;
+		for(File item : files) {	
+			if (item.isDirectory()) {
+				node = new DefaultMutableTreeNode(new MyFileNode(item.toString()));
+				root.add(node);
+			}
 		}
 		
 	}
@@ -137,7 +147,6 @@ public class DirPanel extends JPanel{
 		public void treeExpanded(TreeExpansionEvent event) {
 			TreePath path = event.getPath();
 			DefaultMutableTreeNode thisNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-			System.out.println(thisNode);
 			if(thisNode!=null)
 				myFileManagerFrame.setTitle(((MyFileNode)thisNode.getUserObject()).getFilePath());
 			expandDirectoryNode(thisNode);

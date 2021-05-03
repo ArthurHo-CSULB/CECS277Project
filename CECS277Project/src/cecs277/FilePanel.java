@@ -97,9 +97,15 @@ public class FilePanel extends JPanel {
     public void buildList(String currentDrive){
     	File[] files = new File(currentDrive).listFiles();
     	ArrayList<MyFileList> fileNodes = new ArrayList<MyFileList>();
+    	ArrayList<MyFileList> dirNodes = new ArrayList<MyFileList>();
     	for(File file: files) {
-    		fileNodes.add(new MyFileList(file.toString()));
+    		if (file.isDirectory())
+    			dirNodes.add(new MyFileList(file.toString()));
+    		else {
+    			fileNodes.add(new MyFileList(file.toString()));
+    		}
     	}
+    	model.addAll(dirNodes);
     	model.addAll(fileNodes);
         list.setModel(model);
         list.setDragEnabled(true);
@@ -121,9 +127,15 @@ public class FilePanel extends JPanel {
     	model.removeAllElements();
     	File[] files = focusedFileNode.getFile().listFiles();
     	ArrayList<MyFileList> fileNodes = new ArrayList<MyFileList>();
+    	ArrayList<MyFileList> dirNodes = new ArrayList<MyFileList>();
     	for(File file: files) {
-    		fileNodes.add(new MyFileList(file.toString()));
+    		if (file.isDirectory())
+    			dirNodes.add(new MyFileList(file.toString()));
+    		else {
+    			fileNodes.add(new MyFileList(file.toString()));
+    		}
     	}
+    	model.addAll(dirNodes);
     	model.addAll(fileNodes);
     }
     

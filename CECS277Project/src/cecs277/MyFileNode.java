@@ -30,7 +30,7 @@ public class MyFileNode {
 	}
 	
 	public boolean isDirectory() {
-		return (file.listFiles() != null);
+		return (file.isDirectory());
 	}
 	
 	public String getFilePath() {

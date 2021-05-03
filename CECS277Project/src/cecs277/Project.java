@@ -1,5 +1,6 @@
 package cecs277;
 
+
 /**
  * 
  * @author Darius & Arthur
@@ -12,6 +13,8 @@ public class Project {
 		DIRread.getFiles("C:\\");
 		App app = new App();
 		app.go();
+		
+
 	}
 
 }
