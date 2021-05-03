@@ -46,7 +46,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
 
@@ -60,6 +62,7 @@ public class FilePanel extends JPanel {
     DefaultListModel model = new DefaultListModel();
     private JScrollPane scrollpane = new JScrollPane();
     private FileManagerFrame myFileManagerFrame;
+    private JPopupMenu RCpopup;
     
     public FilePanel(FileManagerFrame myFileManagerFrame){
         this.myFileManagerFrame = myFileManagerFrame;
@@ -68,6 +71,12 @@ public class FilePanel extends JPanel {
 		this.add(scrollpane, BorderLayout.CENTER);
         this.setDropTarget(new MyDropTarget());        
         buildList("C:\\");
+		RCpopup = new JPopupMenu();
+		RCpopup.add(new JMenuItem("Rename"));
+		RCpopup.add(new JMenuItem("Copy"));
+		RCpopup.add(new JMenuItem("Paste"));
+		RCpopup.addSeparator();
+		RCpopup.add(new JMenuItem("Delete"));
     }
     
     /**
@@ -139,6 +148,19 @@ public class FilePanel extends JPanel {
     			}
     		}
     	}
+    	public void mousePressed(MouseEvent e) {
+    		RightmouseClicked(e);
+    	}
+    	public void mouseReleased(MouseEvent e) {
+    		RightmouseClicked(e);
+    	}
+    	public void RightmouseClicked(MouseEvent e) {
+    		if(e.isPopupTrigger()) {
+    			RCpopup.show(e.getComponent(), e.getX(), e.getY());
+    			System.out.println("rightmouseclicked");
+    		}
+    	}
+    	
     }
     /*************************************************************************
      * class MyDropTarget handles the dropping of files onto its owner
@@ -191,5 +213,4 @@ public class FilePanel extends JPanel {
         }
         
     }
-
 }

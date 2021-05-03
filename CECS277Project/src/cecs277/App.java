@@ -361,7 +361,6 @@ public class App extends JFrame{
 			else if(e.getActionCommand().equals("Simple"))
 				System.out.println("Simple");
 		 }
-	 }
-	
+	 }	
 	
 }
