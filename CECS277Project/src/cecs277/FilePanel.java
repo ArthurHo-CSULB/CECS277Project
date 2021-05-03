@@ -172,7 +172,6 @@ public class FilePanel extends JPanel {
     	public void RightmouseClicked(MouseEvent e) {
     		if(e.isPopupTrigger()) {
     			RCpopup.show(e.getComponent(), e.getX(), e.getY());
-    			System.out.println("rightmouseclicked");
     		}
     	}
     }
