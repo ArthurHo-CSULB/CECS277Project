@@ -154,6 +154,18 @@ public class FilePanel extends JPanel {
     			}
     		}
     	}
+    	public void mousePressed(MouseEvent e) {
+    		RightmouseClicked(e);
+    	}
+    	public void mouseReleased(MouseEvent e) {
+    		RightmouseClicked(e);
+    	}
+    	public void RightmouseClicked(MouseEvent e) {
+    		if(e.isPopupTrigger()) {
+    			RCpopup.show(e.getComponent(), e.getX(), e.getY());
+    			System.out.println("rightmouseclicked");
+    		}
+    	}
     }
     /*************************************************************************
      * class MyDropTarget handles the dropping of files onto its owner
