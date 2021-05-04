@@ -18,7 +18,20 @@ public class MyFileList extends MyFileNode {
 		super(name, f);
 	}
 	
+	public boolean FileMoved() {
+		return this.getFile().exists();
+	}
+	
+	@Override
+	public String getFileName() {
+		String[] seperated = super.getFileName().split("[\\\\]");
+		return seperated[seperated.length-1];
+	}
+	
 	public String toString() {
+		if (!getFile().exists()) {
+			return "";
+		}
 		if (App.detailed == false || super.isDirectory()) {
 			String[] seperated = getFileName().split("[\\\\]");
 			return seperated[seperated.length-1];
@@ -27,10 +40,12 @@ public class MyFileList extends MyFileNode {
 			String name = super.toString();
 			if (name.length() >= 39) {
 				name = name.substring(0, 39);
-			}
-			return String.format("%-40s%-12s%-10s", name, 
-					dateFmt.format(getFile().lastModified()) +"", 
-					decFmt.format(getFile().length()/1024) + " KB");
+		}
+			
+			
+		return String.format("%-40s%-12s%-10s", name, 
+				dateFmt.format(getFile().lastModified()) +"", 
+				decFmt.format(getFile().length()/1024) + " KB");
 		}
 	}
 }

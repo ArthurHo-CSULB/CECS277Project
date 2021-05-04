@@ -89,6 +89,7 @@ public class FilePanel extends JPanel {
 		this.add(scrollpane, BorderLayout.CENTER);
         this.setDropTarget(new MyDropTarget());        
         buildList(file.getAbsolutePath());
+        buildPopup();
     }
     
     /**
@@ -133,7 +134,7 @@ public class FilePanel extends JPanel {
         list.setModel(model);
         list.setDragEnabled(true);
         list.setVisibleRowCount(-1);
-        list.addMouseListener(new doubleClickMouseRun());
+        list.addMouseListener(new ClickMouseRun());
     }
     
     
@@ -174,12 +175,21 @@ public class FilePanel extends JPanel {
     }
     
     /**
+     * return this class's selected list item
+     * 
+     * @return the last selectedFileList by the user
+     */
+    public MyFileList getSelectedFileList() {
+    	return selectedFileList;
+    }
+    
+    /**
      * MouseAdapter which listens for double click on list to run the file 
      * 
      * @author Darius & Arthur
      *
      */
-    private class doubleClickMouseRun extends MouseAdapter{
+    private class ClickMouseRun extends MouseAdapter{
     	public void mouseClicked(MouseEvent e) {
     		list = (JList)e.getSource();
     		
@@ -190,6 +200,7 @@ public class FilePanel extends JPanel {
     			if (index >= 0) {
     				// get the node associated with the double click
     				selectedFileList = (MyFileList)list.getModel().getElementAt(index);
+    				getFileManagerFrame().getMyApp().setSelectedFileList(selectedFileList);
     			}
     		}
 			else if (e.getClickCount() == 2) {
@@ -200,6 +211,7 @@ public class FilePanel extends JPanel {
     			if (index >= 0) {
     				// get the node associated with the double click
     				selectedFileList = (MyFileList)list.getModel().getElementAt(index);
+    				getFileManagerFrame().getMyApp().setSelectedFileList(selectedFileList);
     				// get user desktop
     				Desktop desktop = Desktop.getDesktop();
     				try {
@@ -221,6 +233,7 @@ public class FilePanel extends JPanel {
     			int index = list.locationToIndex(e.getPoint());
     			if (index >= 0) {
     				selectedFileList = (MyFileList)list.getModel().getElementAt(index);
+    				getFileManagerFrame().getMyApp().setSelectedFileList(selectedFileList);
     			}
     			RCpopup.show(e.getComponent(), e.getX(), e.getY());
     		}
@@ -229,6 +242,7 @@ public class FilePanel extends JPanel {
     
     /**
      * action listener to handle popup events
+     * 
      * @author Darius & Arthur
      *
      */
@@ -238,23 +252,19 @@ public class FilePanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			
 			if(e.getActionCommand().equals("Rename")) {
-				// TODO: ADD RENAME FILE IMPLEMENTATION
-				System.out.println("Rename");
+				getFileManagerFrame().getMyApp().buildRenameDlg();
 			}
 			
 			else if(e.getActionCommand().equals("Copy")) {
-				// TODO: ADD COPY FILE IMPLEMENTATION
-				System.out.println("Copy");
+				getFileManagerFrame().getMyApp().buildCopyDlg();
 			}
 			
 			else if(e.getActionCommand().equals("Paste")) {
-				// TODO: ADD PASTE FILE IMPLEMENTATION
-				System.out.println("Paste");
+				getFileManagerFrame().getMyApp().buildPasteDlg();
 			}
 			
 			else if(e.getActionCommand().equals("Delete")) {
-				// TODO: ADD DELETE FILE IMPLEMENTATION
-				System.out.println("Delete");
+				getFileManagerFrame().getMyApp().buildDeleteDlg();
 			}
 			
 		}

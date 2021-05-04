@@ -85,7 +85,9 @@ public class FileManagerFrame extends JInternalFrame {
 	public DirPanel getDirPanel() {
 		return dirPanel;
 	}
-	
+	public App getMyApp() {
+		return myApp;
+	}
 
 
 }

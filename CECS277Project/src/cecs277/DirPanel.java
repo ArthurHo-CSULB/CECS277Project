@@ -151,8 +151,11 @@ public class DirPanel extends JPanel{
 		public void treeExpanded(TreeExpansionEvent event) {
 			TreePath path = event.getPath();
 			DefaultMutableTreeNode thisNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-			if(thisNode!=null)
+			if(thisNode!=null) {
+				getFileManagerFrame().getMyApp().setSelectedTreeNode(thisNode);
+				getFileManagerFrame().getMyApp().setSelectedTree(dirTree);
 				myFileManagerFrame.setTitle(((MyFileNode)thisNode.getUserObject()).getFilePath());
+			}
 			expandDirectoryNode(thisNode);
 			if(thisNode!=null)
 				myFileManagerFrame.buildNewList((MyFileNode)thisNode.getUserObject());
@@ -199,8 +202,11 @@ public class DirPanel extends JPanel{
 		public void valueChanged(TreeSelectionEvent e) {
 			
 			DefaultMutableTreeNode thisNode = (DefaultMutableTreeNode) dirTree.getLastSelectedPathComponent();
-			if(thisNode!=null)
+			if(thisNode!=null) {
+				getFileManagerFrame().getMyApp().setSelectedTreeNode(thisNode);
+				getFileManagerFrame().getMyApp().setSelectedTree(dirTree);
 				myFileManagerFrame.setTitle(((MyFileNode)thisNode.getUserObject()).getFilePath());
+			}
 			expandDirectoryNode(thisNode);
 			if(thisNode!=null) {
 				myFileManagerFrame.buildNewList((MyFileNode)thisNode.getUserObject());

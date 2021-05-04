@@ -14,10 +14,13 @@ import java.text.SimpleDateFormat;
 public class MyFileNode {
 	private File file;
 	private String fileName;
-
+	private String rootDrive;
+	
 	public MyFileNode(String filename) {
 		file = new File(filename);
 		fileName = filename;
+		String[] seperated = getFileName().split("[\\\\]");
+		rootDrive = seperated[0];
 	}
 	
 	public MyFileNode(String name, File f) {
@@ -27,6 +30,10 @@ public class MyFileNode {
 	
 	public File getFile() {
 		return file;
+	}
+	
+	public String getRootDrive() {
+		return rootDrive;
 	}
 	
 	public boolean isDirectory() {
