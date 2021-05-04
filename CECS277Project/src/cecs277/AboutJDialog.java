@@ -21,6 +21,7 @@ public class AboutJDialog extends JDialog {
 			AboutJDialog dialog = new AboutJDialog();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			dialog.setTitle("About");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

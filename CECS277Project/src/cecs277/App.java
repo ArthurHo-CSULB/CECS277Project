@@ -261,24 +261,34 @@ public class App extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getActionCommand().equals("Rename"))
 				// TODO: ADD RENAME FILE IMPLEMENTATION
+				try {
+			        RenameCopyJDialog renamedlg = new RenameCopyJDialog();
+			        // renamedlg.setTitle("Rename");
+			        renamedlg.setVisible(true);
+			    } catch (Exception ex) {
+			        ex.printStackTrace();
+			    }
 				System.out.println("Rename");
 			
-			else if(e.getActionCommand().equals("Copy"))
+			if(e.getActionCommand().equals("Copy"))
 				// TODO: ADD COPY FILE IMPLEMENTATION
+				try {
+			        RenameCopyJDialog copydlg = new RenameCopyJDialog();
+			        // copydlg.setTitle("Copy");
+			        copydlg.setVisible(true);
+			    } catch (Exception ex) {
+			        ex.printStackTrace();
+			    }
 				System.out.println("Copy");
 			
-			else if(e.getActionCommand().equals("Delete"))
+			if(e.getActionCommand().equals("Delete"))
 				// TODO: ADD DELETE FILE IMPLEMENTATION
 				System.out.println("Delete");
 			
 			else if(e.getActionCommand().equals("Run"))
 				// TODO: ADD RUN FILE IMPLEMENTATION
 				System.out.println("Run");
-			
-			else // exit item
-				System.exit(0);
 		}
-		
 	}
 	
 	/**

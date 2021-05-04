@@ -21,6 +21,7 @@ public class HelpJDialog extends JDialog {
 			HelpJDialog dialog = new HelpJDialog();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			dialog.setTitle("Help");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
