@@ -380,8 +380,6 @@ public class App extends JFrame{
 				File drive = (File)comboBox.getSelectedItem();
 				FileManagerFrame newFrame = buildFileManagerFrame(drive);
 				updateStatusBar(newFrame);
-
-				
 			}
 		 }
 	 }

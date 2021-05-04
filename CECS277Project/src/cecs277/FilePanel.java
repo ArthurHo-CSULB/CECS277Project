@@ -39,6 +39,8 @@ import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -64,6 +66,8 @@ public class FilePanel extends JPanel {
     private JScrollPane scrollpane = new JScrollPane();
     private FileManagerFrame myFileManagerFrame;
     private JPopupMenu RCpopup;
+    private JMenuItem rename, copy, paste, delete;
+    private MyFileList selectedFileList;
     
     public FilePanel(FileManagerFrame myFileManagerFrame){
     	list.setFont(new Font("Courier New",Font.BOLD,14));
@@ -73,12 +77,8 @@ public class FilePanel extends JPanel {
 		this.add(scrollpane, BorderLayout.CENTER);
         this.setDropTarget(new MyDropTarget());        
         buildList("C:\\");
-        RCpopup = new JPopupMenu();
-        RCpopup.add(new JMenuItem("Rename"));
-        RCpopup.add(new JMenuItem("Copy"));
-        RCpopup.add(new JMenuItem("Paste"));
-        RCpopup.addSeparator();
-        RCpopup.add(new JMenuItem("Delete"));
+        buildPopup();
+
     }
     
     public FilePanel(FileManagerFrame myFileManagerFrame, File file){
@@ -91,6 +91,29 @@ public class FilePanel extends JPanel {
         buildList(file.getAbsolutePath());
     }
     
+    /**
+     * builds the popup which appears when you right click
+     */
+    public void buildPopup() {
+        RCpopup = new JPopupMenu();
+        rename = new JMenuItem("Rename");
+        copy = new JMenuItem("Copy");
+        paste = new JMenuItem("Paste");
+        delete = new JMenuItem("Delete");
+        
+        RCpopup.add(rename);
+        RCpopup.add(copy);
+        RCpopup.add(paste);
+        RCpopup.addSeparator();
+        RCpopup.add(delete);
+        
+        popupActionListener popupAL = new popupActionListener();
+        
+        rename.addActionListener(popupAL);
+        copy.addActionListener(popupAL);
+        paste.addActionListener(popupAL);
+        delete.addActionListener(popupAL);
+    }
     /**
      *  Builds the initial list of the root drive C:\\
      */
@@ -126,6 +149,8 @@ public class FilePanel extends JPanel {
     	}
     	model.removeAllElements();
     	File[] files = focusedFileNode.getFile().listFiles();
+    	if (files == null)
+    		return;
     	ArrayList<MyFileList> fileNodes = new ArrayList<MyFileList>();
     	ArrayList<MyFileList> dirNodes = new ArrayList<MyFileList>();
     	for(File file: files) {
@@ -154,21 +179,31 @@ public class FilePanel extends JPanel {
      * @author Darius & Arthur
      *
      */
-    public class doubleClickMouseRun extends MouseAdapter{
+    private class doubleClickMouseRun extends MouseAdapter{
     	public void mouseClicked(MouseEvent e) {
     		list = (JList)e.getSource();
-    		if (e.getClickCount() == 2) {
+    		
+			if (e.getClickCount() == 1) {
+    			// single-click detected
+    			int index = list.locationToIndex(e.getPoint());
+    			// checking to make sure the doubleclick index makes sense
+    			if (index >= 0) {
+    				// get the node associated with the double click
+    				selectedFileList = (MyFileList)list.getModel().getElementAt(index);
+    			}
+    		}
+			else if (e.getClickCount() == 2) {
     			
     			// Double-click detected
     			int index = list.locationToIndex(e.getPoint());
     			// checking to make sure the doubleclick index makes sense
-    			if (index > 0) {
+    			if (index >= 0) {
     				// get the node associated with the double click
-    				MyFileList fileNode = (MyFileList)list.getModel().getElementAt(index);
+    				selectedFileList = (MyFileList)list.getModel().getElementAt(index);
     				// get user desktop
     				Desktop desktop = Desktop.getDesktop();
     				try {
-    					desktop.open(fileNode.getFile());
+    					desktop.open(selectedFileList.getFile());
     				}catch(IOException ex) {
     					System.out.println(ex.toString());
     				}
@@ -183,9 +218,47 @@ public class FilePanel extends JPanel {
     	}
     	public void RightmouseClicked(MouseEvent e) {
     		if(e.isPopupTrigger()) {
+    			int index = list.locationToIndex(e.getPoint());
+    			if (index >= 0) {
+    				selectedFileList = (MyFileList)list.getModel().getElementAt(index);
+    			}
     			RCpopup.show(e.getComponent(), e.getX(), e.getY());
     		}
     	}
+    }
+    
+    /**
+     * action listener to handle popup events
+     * @author Darius & Arthur
+     *
+     */
+    private class popupActionListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			if(e.getActionCommand().equals("Rename")) {
+				// TODO: ADD RENAME FILE IMPLEMENTATION
+				System.out.println("Rename");
+			}
+			
+			else if(e.getActionCommand().equals("Copy")) {
+				// TODO: ADD COPY FILE IMPLEMENTATION
+				System.out.println("Copy");
+			}
+			
+			else if(e.getActionCommand().equals("Paste")) {
+				// TODO: ADD PASTE FILE IMPLEMENTATION
+				System.out.println("Paste");
+			}
+			
+			else if(e.getActionCommand().equals("Delete")) {
+				// TODO: ADD DELETE FILE IMPLEMENTATION
+				System.out.println("Delete");
+			}
+			
+		}
+    	
     }
     /*************************************************************************
      * class MyDropTarget handles the dropping of files onto its owner

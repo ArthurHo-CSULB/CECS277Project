@@ -30,7 +30,7 @@ public class MyFileList extends MyFileNode {
 			}
 			return String.format("%-40s%-12s%-10s", name, 
 					dateFmt.format(getFile().lastModified()) +"", 
-					decFmt.format(getFile().length()/1024/1024) + " MB");
+					decFmt.format(getFile().length()/1024) + " KB");
 		}
 	}
 }

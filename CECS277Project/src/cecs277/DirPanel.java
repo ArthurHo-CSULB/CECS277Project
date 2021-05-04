@@ -41,6 +41,8 @@ public class DirPanel extends JPanel{
 		setLayout(new BorderLayout());
 		add(scrollpane, BorderLayout.CENTER);
 		scrollpane.setViewportView(dirTree);
+		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) dirTree.getCellRenderer();
+		renderer.setLeafIcon(renderer.getClosedIcon());
 		buildDir(file.toString());
 	}
 	
@@ -49,13 +51,15 @@ public class DirPanel extends JPanel{
 		
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(new MyFileNode(rootStr));
 		treeModel = new DefaultTreeModel(root);
-				
 		DefaultMutableTreeNode node;
 		File cFile = new File(rootStr);
 		File[] cFiles = cFile.listFiles();
 		for(File item : cFiles) {
 			if (item.isDirectory()) {
-				node = buildNode(item);
+				if (item.listFiles() == null)
+					node = new DefaultMutableTreeNode(new MyFileNode(item.toString()));
+				else
+					node = buildNode(item);
 				root.add(node);
 			}
 		}
@@ -75,7 +79,7 @@ public class DirPanel extends JPanel{
 	 */
 	public DefaultMutableTreeNode buildNode(File rootFile) {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(new MyFileNode(rootFile.getAbsolutePath()));
-				
+		
 		DefaultMutableTreeNode node;
 		File[] files = rootFile.listFiles();
 		if (files == null)
