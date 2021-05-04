@@ -283,9 +283,16 @@ public class App extends JFrame{
 			
 			if(e.getActionCommand().equals("Delete"))
 				// TODO: ADD DELETE FILE IMPLEMENTATION
+				try {
+			        DeleteJDialog deletedlg = new DeleteJDialog();
+			        // renamedlg.setTitle("Rename");
+			        deletedlg.setVisible(true);
+			    } catch (Exception ex) {
+			        ex.printStackTrace();
+			    }
 				System.out.println("Delete");
 			
-			else if(e.getActionCommand().equals("Run"))
+			if(e.getActionCommand().equals("Run"))
 				// TODO: ADD RUN FILE IMPLEMENTATION
 				System.out.println("Run");
 		}

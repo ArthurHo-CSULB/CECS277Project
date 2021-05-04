@@ -79,6 +79,7 @@ public class RenameCopyJDialog extends JDialog {
 			textField = new JTextField();
 			getContentPane().add(textField, "cell 0 1");
 			textField.setColumns(40);
+			textField.setText("Test");
 		}
 		{
 			textField_1 = new JTextField();
