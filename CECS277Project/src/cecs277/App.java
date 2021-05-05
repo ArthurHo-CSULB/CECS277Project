@@ -453,6 +453,8 @@ public class App extends JFrame{
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			if (getSelectedTreeNode() == null)
+				return;
 			if(e.getActionCommand().equals("Expand Branch")) {
 				TreePath path = new TreePath(getSelectedTreeNode().getPath());
 				getSelectedTree().expandPath(path);
