@@ -45,6 +45,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -310,8 +311,28 @@ public class FilePanel extends JPanel {
                     result =(List)evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
                     //process the input
                     for(Object o : result){
-                        System.out.println(o.toString());
-                        model.addElement(o.toString());
+                    	// if the copied file is empty return
+                		if (o == null)
+                			return;
+                		if (!((File)o).exists())
+                			return;
+
+                        // getting string from user
+                		String[] fileName = ((File)o).toString().split("[\\\\]");
+                        String fileStr = ((MyFileNode)(getFileManagerFrame().getMyApp().getSelectedTreeNode().getUserObject())).getFilePath()+"\\"+fileName[fileName.length-1];
+                        // copy file to new location
+                        if (fileStr.equals(""))
+                        	return;
+                        try {
+                        	Files.copy(((File)o).toPath(), (new File(fileStr)).toPath());
+                	    } catch (Exception ex) {
+                	        ex.printStackTrace();
+                	    }
+                        
+                        // this calls DirPanel.java and then makes a new filepanel page somehow
+                        getFileManagerFrame().buildNewList((MyFileNode)(getFileManagerFrame().getMyApp().getSelectedTreeNode()).getUserObject());
+//                        System.out.println(o.toString());
+//                        model.addElement(o.toString());
                     }
                 }
             }
